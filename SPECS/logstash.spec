@@ -3,7 +3,9 @@
 %define __jar_repack %{nil}
 # do not build debug packages
 %define debug_package %{nil}
-%define base_install_dir /opt/%{name}
+%define libdir %{_datarootdir}/java/%{name}
+
+%define plugins_dir %{_datarootdir}/%{name}/plugins
 
 Name:           logstash
 Version:        1.1.1
@@ -39,18 +41,18 @@ true
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__mkdir} -p %{buildroot}%{base_install_dir}/lib
-%{__install} -m 755 %{SOURCE0} %{buildroot}%{base_install_dir}/lib/
+%{__mkdir} -p %{buildroot}%{libdir}
+%{__install} -m 755 %{SOURCE0} %{buildroot}%{libdir}
 
-%{__mkdir} -p %{buildroot}%{base_install_dir}/bin
-%{__install} -m 755 %{SOURCE4} %{buildroot}%{base_install_dir}/bin/logstash
+%{__mkdir} -p %{buildroot}%{_bindir}
+%{__install} -m 755 %{SOURCE4} %{buildroot}%{_bindir}/logstash
 
 # config
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/logstash/conf.d
 %{__install} -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/logstash/conf.d/logstash.conf
 
 # plugins & patterns
-%{__mkdir} -p %{buildroot}%{base_install_dir}/plugins
+%{__mkdir} -p %{buildroot}%{plugins_dir}
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/patterns
 
 # logs
@@ -65,7 +67,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__mkdir} -p %{buildroot}%{_localstatedir}/run/logstash
 %{__mkdir} -p %{buildroot}%{_localstatedir}/lock/subsys/logstash
-%{__mkdir} -p %{buildroot}%{base_install_dir}/tmp
 
 %pre
 # create logstash group
@@ -93,9 +94,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%dir %{base_install_dir}
-%dir %{base_install_dir}/plugins
+%{_bindir}/*
+%dir %{plugins_dir}
 %dir %{_sysconfdir}/patterns
+%dir %{libdir}
 
 %{_sysconfdir}/rc.d/init.d/logstash
 %{_sysconfdir}/logrotate.d/logstash
@@ -103,13 +105,10 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/sysconfig/logstash
 %config(noreplace) %{_sysconfdir}/logstash/conf.d/logstash.conf
 
-%{base_install_dir}/lib/*
-%{base_install_dir}/bin/*
-
+%{libdir}/*
 #%doc LICENSE.txt  NOTICE.txt  README.textile
 %defattr(-,logstash,logstash,-)
 %{_localstatedir}/run/logstash
-%{base_install_dir}/tmp
 %dir %{_localstatedir}/log/logstash
 
 
