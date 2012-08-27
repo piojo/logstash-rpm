@@ -24,12 +24,12 @@ function usage() {
   echo "Usage: ${SCRIPT} SERVICE OPTIONS"
   echo "  SERVICE: agent, web"
   echo "  OPTIONS:"
-  echo "    -f, --config CONFIGFILE (required)\tLoad the logstash config from a specific file or directory."
+  echo -e "    -f, --config CONFIGFILE (required)\tLoad the logstash config from a specific file or directory."
 
-  echo "                           \t\tIf a direcory is given instead of a file, all files in that directory will be concatonated in lexicographical order and then parsed as a single config file."
-  echo "    -p, --pluginpath PLUGIN_PATH\tA colon-delimited path to find plugins in."
-  echo "    -P, --pidfile PIDFILE\t\tPID file path."
-  echo "    -l, --logfile LOGFILE\t\tLogfile path."
+  echo -e "                           \t\tIf a direcory is given instead of a file, all files in that directory will be concatonated in lexicographical order and then parsed as a single config file."
+  echo -e "    -p, --pluginpath PLUGIN_PATH\tA colon-delimited path to find plugins in."
+  echo -e "    -P, --pidfile PIDFILE\t\tPID file path."
+  echo -e "    -l, --logfile LOGFILE\t\tLogfile path."
 }
 
 function run_service() {
