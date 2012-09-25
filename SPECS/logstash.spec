@@ -9,7 +9,7 @@
 
 Name:           logstash
 Version:        1.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Logstash is a tool for managing events and logs.
 
 Group:          System Environment/Daemons
@@ -82,6 +82,14 @@ fi
 
 %post
 /sbin/chkconfig --add logstash
+if [ $1 -eq 1 ]
+then
+    read pid < %{localstatedir}/run/logstash/logstash.pid
+    if kill -0 "$pid"
+    then
+        service logstash restart
+    fi
+fi
 
 %preun
 if [ $1 -eq 0 ]; then
