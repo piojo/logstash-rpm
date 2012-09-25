@@ -82,9 +82,9 @@ fi
 
 %post
 /sbin/chkconfig --add logstash
-if [ $1 -eq 1 ]
+if [ $1 -eq 2 ]
 then
-    read pid < %{localstatedir}/run/logstash/logstash.pid
+    read pid < %{_localstatedir}/run/logstash/logstash.pid
     if kill -0 "$pid"
     then
         service logstash restart
