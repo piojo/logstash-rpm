@@ -9,7 +9,7 @@
 
 Name:           logstash
 Version:        1.1.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Logstash is a tool for managing events and logs.
 
 Group:          System Environment/Daemons
@@ -69,16 +69,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{_localstatedir}/lock/subsys/logstash
 
 %pre
-# create logstash group
-if ! getent group logstash >/dev/null; then
-        groupadd -r logstash
-fi
-
-# create ogstash user
-if ! getent passwd logstash >/dev/null; then
-        useradd -r -g logstash -d %{base_install_dir} \
-            -s /sbin/nologin -c "Logstash" logstash
-fi
 
 %post
 /sbin/chkconfig --add logstash
