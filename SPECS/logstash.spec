@@ -3,13 +3,15 @@
 %define __jar_repack %{nil}
 # do not build debug packages
 %define debug_package %{nil}
-%define libdir %{_datarootdir}/java/%{name}
+%define datadir %{?_datarootdir}%{!?_datarootdir:%{_datadir}}
 
-%define plugins_dir %{_datarootdir}/%{name}/plugins
+%define libdir %{datadir}/java/%{name}
+
+%define plugins_dir %{datadir}/%{name}/plugins
 
 Name:           logstash
-Version:        1.1.1
-Release:        3%{?dist}
+Version:        1.1.3
+Release:        1%{?dist}
 Summary:        Logstash is a tool for managing events and logs.
 
 Group:          System Environment/Daemons
